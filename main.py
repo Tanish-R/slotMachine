@@ -14,6 +14,14 @@ symbol_count = {
     "D": 8
 }
 
+symbol_value = {
+    "A": 5,
+    "B": 4,
+    "C": 3,
+    "D": 2
+}
+
+
 '''
 Populates the slot machines with data (symbols).
 Uses nested for loop to randomly choose which symbols will come. Each nested list in columns is one column in our slots. Not to be confused as a row.
@@ -52,6 +60,28 @@ def print_slot_machine(columns):
                 print(column[row], end = "")
         
         print()
+
+
+'''
+Iterate through each line (row) and check the first column of that row to see what symbol to look for.
+We then see if all the remaining columns have the same symbol. If all the columns have the same symbol, user wins their bet on that line. Their bet is multiplied by the value of the symbol. 
+If the symbols are not the same, we break out of the loop and check the next line.
+'''
+def check_winnings(columns, lines, bet, values):
+    winnings = 0
+    winningLines = []
+    for line in range(lines):
+        #gets the symbol in first column of the line we are checking
+        symbol = columns[0][line]
+        for column in columns:
+            symbolToCheck = column[line]
+            if symbol != symbolToCheck:
+                break
+        else:
+            winnings += values[symbol] * bet
+            winningLines.append(line + 1)
+
+    return winnings, winningLines
 
 
 '''
@@ -135,10 +165,15 @@ def main():
         else:
             break
 
-    print(f"You are betting ${bet} on {lines} lines. Total bet is equal to ${totalBet}")
+    print(f"\nYou are betting ${bet} on {lines} lines. Total bet is equal to ${totalBet}")
 
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
     print_slot_machine(slots)
+    winnings, winningLines = check_winnings(slots, lines, bet, symbol_value)
+    print(f"You won ${winnings}.")
+    if winnings > 0:
+        # * unpacks the list
+        print(f"You won on lines:", *winningLines)
 
 
 main()
