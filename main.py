@@ -153,8 +153,11 @@ def get_bet():
             isValidBet = True
     return bet
 
-def main():
-    balance = deposit()
+'''
+Primary function that calls all other functions. Gets user input and outputs winnings of each spin.
+Returns the profit of each spin (winnings - bet)
+'''
+def playGame(balance):
     lines = get_number_of_lines()
     while True:
         bet = get_bet()
@@ -174,6 +177,19 @@ def main():
     if winnings > 0:
         # * unpacks the list
         print(f"You won on lines:", *winningLines)
+    return winnings - totalBet
 
 
+#Allows users to play the game multiple times.
+def main():
+    balance = deposit()
+    while True:
+        print(f"Current balance is ${balance}")
+        spin = input("\nPress enter to play (q to quit) ")
+        if spin == "q":
+            break
+        balance += playGame(balance)
+    
+    print(f"You left with ${balance}")
+ 
 main()
