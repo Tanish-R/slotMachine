@@ -42,6 +42,16 @@ def get_slot_machine_spin(rows, cols, symbols):
     return columns
 
 
+#Printing out a transposed version of columns
+def print_slot_machine(columns):
+    for row in range(len(columns[0])):
+        for i, column in enumerate(columns):
+            if i != len(columns) - 1:
+                print(column[row], "|")
+            else:
+                print(column[row])
+
+
 '''
 Asks users how much money they want to deposit into their balance
 Continues in a while loop until user enters a positive number
